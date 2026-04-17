@@ -9,6 +9,7 @@ module "dns" {
     keys = module.keys.bloxone_keys_tsig
 }
 
+// Module debug, will be removed
 output "dns" {
   value = module.dns
 }
