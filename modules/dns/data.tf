@@ -1,0 +1,1 @@
+data "bloxone_dns_hosts" "all_hosts" {}

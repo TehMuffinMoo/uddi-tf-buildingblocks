@@ -1,0 +1,105 @@
+{
+    "template" : {
+        "dns_views" : [
+            {
+                "name" : "External",
+                "comment" : "External / Public Facing DNS View",
+                "auth_domains" : [
+                    {
+                        "fqdn" : "me.com.",
+                        "comment" : "Primary External Authoritative Zone for me.com",
+                        "nsgs" : [
+                            "External DNS NSG"
+                        ]
+                    }
+                ],
+                "fwd_domains" : []
+            },
+            {
+                "name" : "Internal",
+                "comment" : "Internal DNS View for Internal Resolution",
+                "auth_domains" : [
+                    {
+                        "fqdn" : "me.local.",
+                        "comment" : "Primary Internal Facing Authoritative Zone for me.local",
+                        "nsgs" : [
+                            "Internal DNS NSG"
+                        ]
+                    }
+                ],
+                "fwd_domains" : [],
+                "match_clients_acls" : [
+                    "Internal-Match-Clients"
+                ]
+            }
+        ],
+        "dns_nsgs" : [
+            {
+                "name" : "External DNS NSG",
+                "comment" : "NSG for External DNS",
+                "internal_secondaries" : [
+                    "TMMN-B101",
+                    "TMMN-B102"
+                ],
+                "external_secondaries" : [
+                    {
+                        "address" : "92.123.94.100",
+                        "fqdn"    : "c1-100.akashield.net.",
+                        "tsig_enabled" : true,
+                        "tsig_key" : "tsig-key-1."
+                    },
+                    {
+                        "address" : "92.123.94.100",
+                        "fqdn"    : "c2-100.akashield.net.",
+                        "tsig_enabled" : true,
+                        "tsig_key" : "tsig-key-2."
+                    }
+                ]
+            },
+            {
+                "name" : "Internal DNS NSG",
+                "comment" : "NSG for Internal DNS Management",
+                "internal_secondaries" : [
+                    "TMMN-B101",
+                    "TMMN-B102"
+                ],
+                "external_secondaries" : []
+            }
+        ],
+        "dns_acls" : [
+            {
+                "name" : "Internal-Match-Clients",
+                "comment" : "Match Clients for Internal DNS View",
+                "list" : [
+                    {
+                        "access" : "allow",
+                        "element" : "ip",
+                        "address" : "10.0.0.0/8"
+                    },
+                    {
+                        "access" : "deny",
+                        "element" : "any"
+                    }
+                ]
+            }
+        ],
+        "keys" : [
+            {
+                "name" : "tsig-key-1.",
+                "comment"   : "key created through terraform",
+                "algorithm" : "hmac_sha256",
+                "tags" : {
+                    "UsedBy" : "Akamai"
+                }
+            },
+            {
+                "name" : "tsig-key-2.",
+                "comment"   : "key created through terraform",
+                "algorithm" : "hmac_sha256",
+                "tags" : {
+                    "UsedBy" : "Akamai"
+                }
+            }
+        ]
+    }
+}

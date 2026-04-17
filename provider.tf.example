@@ -1,0 +1,13 @@
+terraform {
+  required_providers {
+    bloxone = {
+      source  = "infobloxopen/bloxone"
+      version = "1.5.4"
+    }
+  }
+}
+
+provider "bloxone" {
+  csp_url = "https://csp.eu.infoblox.com"
+  api_key = "abcdefg.."
+}

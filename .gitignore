@@ -1,0 +1,7 @@
+.terraform
+terraform.*
+.terraform.*
+.DS_Store
+provider.tf
+*.json
+!template.example.json
